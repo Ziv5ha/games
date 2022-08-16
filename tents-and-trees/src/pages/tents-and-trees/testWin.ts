@@ -1,4 +1,4 @@
-import { countVerticly, validTent } from './genetalHelpers';
+import { countVerticly } from './genetalHelpers';
 
 export function testWin(game: TentsNTrees.Game): boolean | TentsNTrees.Tile {
   if (!correctTentsInRowsAndColumns(game)) return false;
@@ -7,7 +7,9 @@ export function testWin(game: TentsNTrees.Game): boolean | TentsNTrees.Tile {
   return checkTentLocations(map);
 }
 
-const correctTentsInRowsAndColumns = (game: TentsNTrees.Game): boolean => {
+export const correctTentsInRowsAndColumns = (
+  game: TentsNTrees.Game
+): boolean => {
   const { tentsNumsX, tentsNumsY, map } = game;
   const correctTentsInRows = tentsNumsX.every((correctTentNum, i) => {
     const currentTentsInRow = map[i].count('⛺');
@@ -32,28 +34,66 @@ const tentsNumEqualsTreeNum = (map: TentsNTrees.Map): boolean => {
   return treesNum === tentsNum;
 };
 
-const checkTentLocations = (map: TentsNTrees.Map): true | TentsNTrees.Tile => {
+export const checkTentLocations = (
+  map: TentsNTrees.Map
+): true | TentsNTrees.Tile => {
   for (let y = 0; y < map.length; y++) {
     const row = map[y];
     for (let x = 0; x < row.length; x++) {
       // check for no close tents
-      if (!validTent(map, y, x)) return [y, x];
+      if (!TentNotNextToOtherTent(map, y, x)) return [y, x];
       // Check every tree has a tent
-      if (!checkTentNextToTree(map, y, x)) return [y, x];
+      if (!TentNextToTree(map, y, x)) return [y, x];
     }
   }
   return true;
 };
 
-const checkTentNextToTree = (
+const TentNotNextToOtherTent = (
+  map: TentsNTrees.Map,
+  y: number,
+  x: number
+): boolean => {
+  switch (y) {
+    case 0:
+      return (
+        map[y][x - 1] !== '⛺' &&
+        map[y][x + 1] !== '⛺' &&
+        map[y + 1][x - 1] !== '⛺' &&
+        map[y + 1][x] !== '⛺' &&
+        map[y + 1][x + 1] !== '⛺'
+      );
+    case map.length - 1:
+      return (
+        map[y - 1][x - 1] !== '⛺' &&
+        map[y - 1][x] !== '⛺' &&
+        map[y - 1][x + 1] !== '⛺' &&
+        map[y][x - 1] !== '⛺' &&
+        map[y][x + 1] !== '⛺'
+      );
+    default:
+      return (
+        map[y - 1][x - 1] !== '⛺' &&
+        map[y - 1][x] !== '⛺' &&
+        map[y - 1][x + 1] !== '⛺' &&
+        map[y][x - 1] !== '⛺' &&
+        map[y][x + 1] !== '⛺' &&
+        map[y + 1][x - 1] !== '⛺' &&
+        map[y + 1][x] !== '⛺' &&
+        map[y + 1][x + 1] !== '⛺'
+      );
+  }
+};
+
+const TentNextToTree = (
   map: TentsNTrees.Map,
   y: number,
   x: number
 ): boolean => {
   return (
-    map[y - 1][x] !== '⛺' ||
-    map[y][x - 1] !== '⛺' ||
-    map[y][x + 1] !== '⛺' ||
-    map[y + 1][x] !== '⛺'
+    (map[y - 1] ? map[y - 1][x] !== '🌳' : false) ||
+    map[y][x - 1] !== '🌳' ||
+    map[y][x + 1] !== '🌳' ||
+    (map[y + 1] ? map[y + 1][x] !== '🌳' : false)
   );
 };

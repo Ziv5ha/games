@@ -1,6 +1,6 @@
 import { countVerticly, printGame } from './genetalHelpers';
 
-export function generateBoard(height: number, width: number): TentsNTrees.Game {
+export function generateGame(height: number, width: number): TentsNTrees.Game {
   const map = generateEmptyMap(height, width);
   const tentsNum = calcTentsNum(height, width);
   populateMap(map, tentsNum);
@@ -9,7 +9,7 @@ export function generateBoard(height: number, width: number): TentsNTrees.Game {
   // printGame({ map, tentsNumsX, tentsNumsY });
   const treesMap = removeTents(map);
   // printGame({ map: treesMap, tentsNumsX, tentsNumsY });
-  return { map: treesMap, tentsNumsX, tentsNumsY };
+  return { map: treesMap, tentsNumsX, tentsNumsY, tentsNum };
 }
 
 // ---- generate map helpers ---- //

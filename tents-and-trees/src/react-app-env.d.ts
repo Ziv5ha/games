@@ -5,6 +5,7 @@ declare namespace TentsNTrees {
     tentsNumsX: number[];
     tentsNumsY: number[];
     map: Map;
+    tentsNum: number;
   }
   type Map = string[][];
   type Row = string[];

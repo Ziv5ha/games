@@ -25,7 +25,9 @@ export default function TentAnsTrees() {
     game.current.map[y][x] = '';
     TentsPlacedNum((prev) => --prev);
   };
-
+  /**
+   * why assign this variable? it's not used elsewhere and it's not that messy to keep it in the bottom
+   */
   const boardElem = game.current.map.map((row, y) => (
     <div key={y}>
       {row.map((tile, x) =>
@@ -45,6 +47,9 @@ export default function TentAnsTrees() {
   ));
   return (
     <div>
+      {/* why return an empty string instead of doing:
+      win && <div> you won! </div>
+      } */}
       {win ? (
         <div>
           <h1>You Won!</h1>

@@ -29,6 +29,10 @@ export default function Tile({
         break;
     }
   };
+  /**
+   * here can use switch statement instead of ifs (should be faster)
+   * would also perhaps use buttons instead of spans
+   */
   if (tileState === 'closed') return <span onClick={conClickToggle}>⬛</span>;
   if (tileState === 'open') return <span onClick={conClickToggle}>🟩</span>;
   return <span onClick={conClickToggle}>⛺</span>;
